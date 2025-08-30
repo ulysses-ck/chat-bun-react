@@ -1,23 +1,26 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+type Message = {
+  id: string;
+  content: string;
+  createdAt: string;
+};
+
 function App() {
-  const [messages, setMessages] = useState<
-    Array<{
-      message: string;
-      time: string;
-    }>
-  >([]);
+  const [messages, setMessages] = useState<Array<Message>>([]);
   const [input, setInput] = useState("");
   const [ws, setWs] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-    const websocket = new WebSocket("ws://localhost:3000/ws");
+    const websocket = new WebSocket("ws://localhost:3000/chat");
     setWs(websocket);
 
     websocket.onopen = () => console.log("Connected to WebSocket server");
     websocket.onmessage = (event) => {
-      setMessages((prevMessages) => [...prevMessages, JSON.parse(event.data)]);
+      const parsedData = JSON.parse(event.data) as Message;
+      console.log(parsedData);
+      setMessages((prevMessages) => [...prevMessages, parsedData]);
     };
     websocket.onclose = () => console.log("Disconnected from WebSocket server");
 
@@ -27,7 +30,7 @@ function App() {
 
   const sendMessage = () => {
     if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ message: input }));
+      ws.send(JSON.stringify([{ content: input }]));
       setInput("");
     }
   };
@@ -36,9 +39,10 @@ function App() {
     <div className="notification-center">
       <h2>Real-Time Notifications</h2>
       <div className="messages">
-        {messages.map(({ message, time }, index) => (
-          <div key={`${index}`}>
-            <p>{message}</p>
+        {messages.map(({ content, createdAt, id }) => (
+          <div key={`${id}`}>
+            <p>{content}</p>
+            <small>{createdAt}</small>
           </div>
         ))}
       </div>
