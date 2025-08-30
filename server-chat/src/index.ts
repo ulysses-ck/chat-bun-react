@@ -16,8 +16,8 @@ const app = new Elysia()
       const msg = `${ws.id} has entered to the chat`;
       const historialMessages = await db.query.messageTable.findMany();
       ws.subscribe("chat");
+      ws.send(historialMessages)
       ws.publish("chat", [
-        ...historialMessages,
         { content: msg, id: ws.id, createdAt: new Date().toISOString() },
       ]);
     },
