@@ -18,9 +18,9 @@ function App() {
 
     websocket.onopen = () => console.log("Connected to WebSocket server");
     websocket.onmessage = (event) => {
-      const parsedData = JSON.parse(event.data) as Message;
+      const parsedData = JSON.parse(event.data) as Array<Message>;
       console.log(parsedData);
-      setMessages((prevMessages) => [...prevMessages, parsedData]);
+      setMessages((prevMessages) => [...prevMessages, ...parsedData]);
     };
     websocket.onclose = () => console.log("Disconnected from WebSocket server");
 

@@ -23,8 +23,8 @@ const app = new Elysia()
     },
     async message(ws, body) {
       const result = await db.insert(messageTable).values({content: body[0].content}).returning();
-      ws.send(result[0]);
-      ws.publish("chat", result[0]);
+      ws.send(result);
+      ws.publish("chat", result);
     },
   })
   .listen(3000);
