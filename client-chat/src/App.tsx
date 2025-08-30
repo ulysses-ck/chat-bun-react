@@ -39,12 +39,15 @@ function App() {
     <div className="notification-center">
       <h2>Real-Time Notifications</h2>
       <div className="messages">
-        {messages.map(({ content, createdAt, id }) => (
-          <div key={`${id}`}>
+        {messages.map(({ content, createdAt, id }) => {
+          const time = new Date(createdAt);
+          return (
+          <div key={id} className="message">
             <p>{content}</p>
-            <small>{createdAt}</small>
+            <small className="message-time">{`${time.getHours()}:${time.getMinutes()}`}</small>
           </div>
-        ))}
+        )
+        })}
       </div>
       <input
         type="text"
