@@ -5,14 +5,19 @@ const app = new Elysia()
     body: t.Object({
       message: t.String(),
     }),
-    message(ws, { message }) {
-      ws.send({
-        message,
-        time: Date.now(),
-      });
-    },
     open(ws) {
       console.log(ws.id);
+      const msg = `${ws.id} has entered to the chat`;
+      ws.subscribe("chat");
+      ws.publish("chat", { message: msg, time: Date.now() });
+    },
+    message(ws, { message }) {
+      const data = {
+        message,
+        time: Date.now(),
+      };
+      ws.send(data);
+      ws.publish("chat", data);
     },
   })
   .listen(3000);
