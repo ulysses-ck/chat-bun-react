@@ -17,29 +17,35 @@
 
   $effect(() => {
     const onMessage = (data: Array<Message>) => {
-      console.log(data)
       messages.push(...data);
     };
 
     chat.on("message", (content) => onMessage(content.data as Array<Message>));
 
     return () => {
-      chat.off("message", (content) => onMessage(content.data as Array<Message>));
+      chat.off("message", (content) =>
+        onMessage(content.data as Array<Message>)
+      );
     };
   });
 
   function sendMessage() {
     if (message) {
-      chat.send(
-          {
-            content: message,
-          }
-      );
+      chat.send({
+        content: message,
+      });
     }
 
     message = "";
   }
+
+  function onKeyPressDown(key: string) {
+    if(key === "Enter") {
+      sendMessage()
+    }
+  }
 </script>
+
 <div>
   <div class="list">
     {#each messages as message}
@@ -53,8 +59,11 @@
   </div>
 
   <div>
-    <input type="text" bind:value={message} />
-    <button type="button" onclick={(e) => sendMessage()}>Send</button>
+    <input type="text" onkeydown={(e) => onKeyPressDown(e.key)} bind:value={message} />
+    <button
+      type="button"
+      onclick={(_) => sendMessage()}>Send</button
+    >
   </div>
 </div>
 
