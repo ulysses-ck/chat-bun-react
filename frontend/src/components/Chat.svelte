@@ -1,6 +1,6 @@
 <script lang="ts">
   import { treaty } from "@elysiajs/eden";
-  import { type App } from "../../../backend/src";
+  import { type App } from "@backend/index";
 
   let messages: Array<Message> = $state([]);
   let message: string = $state("");
