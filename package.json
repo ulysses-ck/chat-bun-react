@@ -1,0 +1,9 @@
+{
+  "name": "svelte-elysia-monorepo",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "^1.2.21"
+  },
+  "peerDependencies": {}
+}

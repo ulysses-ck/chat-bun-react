@@ -1,11 +1,6 @@
-# chat websockets
+# chate-ar
 
-Decoupled monolith with React at frontend and Elysia Websockets as backend
-
-## stack
-- React + Vite
-- Elysia Websockets
-- Drizzle ORM
+Instant messaging app
 
 ## features
 - [X] message historial
